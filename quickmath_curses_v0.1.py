@@ -1,7 +1,8 @@
 import curses
 from curses import wrapper
-from curses.textpad import Textbox, rectangle
+from curses.textpad import Textbox
 import random
+import keyboard
 
 num1 = 0 
 num2 = 0
@@ -27,10 +28,10 @@ def main(stdscr):
 
         if int(answer) == result:
             stdscr.refresh,()         
-            stdscr.addstr(f"{answer1}")
+            stdscr.addstr(11, 48, f"{answer1}")
         else:
             stdscr.refresh()
-            stdscr.addstr(f"{answer2}: {result}")
+            stdscr.addstr(11, 47, f"{answer2}: {result}")
 
     def sum():
 
@@ -42,19 +43,15 @@ def main(stdscr):
             symbol =symbol_list[random.randrange(0,4)]
             if symbol == "*" or symbol == "/":
                 num1 = random.randrange(1,13)
-            #stdscr.addstr(f"{num1}{symbol}{num2}")
-            #win = curses.newwin(1,4,4,4)
-            #box = Textbox(win)
             
-            stdscr.addstr(f"{num1}{symbol}{num2}")
+            stdscr.addstr(9, 49, f"{num1}{symbol}{num2}")
             stdscr.refresh()
-            win = curses.newwin(1,4,1,1)
+            win = curses.newwin(1,4,10,50)
             box = Textbox(win)
             box.edit()
             answer = box.gather()
-            #stdscr.addstr(f"= {answer}")
-        
-            #stdscr.getch()
+
+
 
             check(num1, symbol, num2, answer)
             stdscr.getch()
