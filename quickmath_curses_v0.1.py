@@ -2,7 +2,7 @@ import curses
 from curses import wrapper
 from curses.textpad import Textbox
 import random
-import keyboard
+#import keyboard
 
 num1 = 0 
 num2 = 0
@@ -10,6 +10,8 @@ symbol = ""
 symbol_list = ["*", "+", "-", "/"]
 
 def main(stdscr):
+    curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
 
     def check(num1, symbol, num2, answer):
         
@@ -25,13 +27,23 @@ def main(stdscr):
             result = num1 * num2
         elif symbol == "/":
             result = num1 / num2
+       
 
-        if int(answer) == result:
-            stdscr.refresh,()         
-            stdscr.addstr(11, 48, f"{answer1}")
-        else:
+        if answer == "q":
             stdscr.refresh()
-            stdscr.addstr(11, 47, f"{answer2}: {result}")
+            stdscr.addstr(11,48, "--> Exiting", curses.A_BOLD)
+            return 0
+        else:
+            if type(answer) is not int:
+                stdscr.refresh()
+                stdscr.addstr(11,48, "wrong type", curses.color_pair(1))
+            elif type(answer) is int:
+                if int(answer) == result:
+                    stdscr.refresh,()         
+                    stdscr.addstr(11, 48, f"{answer1}", curses.color_pair(2))
+                else:
+                    stdscr.refresh()
+                    stdscr.addstr(11, 47, f"{answer2}: {result}", curses,color_pair(1))
 
     def sum():
 
@@ -50,8 +62,6 @@ def main(stdscr):
             box = Textbox(win)
             box.edit()
             answer = box.gather()
-
-
 
             check(num1, symbol, num2, answer)
             stdscr.getch()
